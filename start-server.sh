@@ -8,5 +8,14 @@ PASSWORD=admin
 python manage.py makemigrations
 python manage.py migrate
 #python manage.py createsuperuser
-echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$USERNAME', '$EMAIL', '$PASSWORD')" | python manage.py shell
+# create user is not exist
+cat <<EOF | python manage.py shell
+from django.contrib.auth import get_user_model
+User = get_user_model()  # get the currently active user model,
+if not User.objects.filter(username="$username").exists():
+    User.objects.create_superuser('$USERNAME', '$EMAIL', '$PASSWORD')
+else:
+    print('User "{}" exists already'.format("$USERNAME"))
+EOF
+
 python manage.py runserver 0.0.0.0:8000

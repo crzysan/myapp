@@ -12,7 +12,7 @@ python manage.py migrate
 cat <<EOF | python manage.py shell
 from django.contrib.auth import get_user_model
 User = get_user_model()  # get the currently active user model,
-if not User.objects.filter(username="$username").exists():
+if not User.objects.filter(username="$USERNAME").exists():
     User.objects.create_superuser('$USERNAME', '$EMAIL', '$PASSWORD')
 else:
     print('User "{}" exists already'.format("$USERNAME"))

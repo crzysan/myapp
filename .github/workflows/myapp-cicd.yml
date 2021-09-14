@@ -55,7 +55,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: crzysan/myapp:${{ steps.meta.outputs.tags }}
 
   deploy_to_server:
     name: Deploy to server

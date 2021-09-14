@@ -68,7 +68,7 @@ jobs:
         port: ${{ secrets.PORT }}
         script:  |
            podman pull docker.io/crzysan/myapp:latest
-           podman run -td -p 8000:8000 myapp
+           podman run -ti -d -p 8000:8000 myapp
            sleep 20
            curl localhost:8000/ht
 

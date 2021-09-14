@@ -55,7 +55,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: crzysan/myapp:latest
+          tags: crzysan/myapp:${{ github.ref }}
 
   deploy_to_server:
     name: Deploy to server
@@ -72,7 +72,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script:  |
-           podman pull docker.io/crzysan/myapp:latest
+           podman pull docker.io/crzysan/myapp:${{ github.ref }}
            podman run -ti -d -p 8000:8000 myapp
            sleep 20
            curl localhost:8000/ht
@@ -93,5 +93,5 @@ jobs:
         port: ${{ secrets.PORT }}
         script:  |
            kubectl cluster-info --context kind-dev
-           kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:${{ steps.meta.outputs.tags }}
+           kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:${{ github.ref }}
            kubectl rollout status -w deployment/myapp-web

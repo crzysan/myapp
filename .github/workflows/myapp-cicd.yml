@@ -59,7 +59,7 @@ jobs:
     environment: dev
     
     steps:
-    - name: Deploy
+    - name: Deploy en smoke test
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
@@ -70,5 +70,5 @@ jobs:
            podman pull docker.io/crzysan/myapp:latest
            podman run -d -p 8000:8000 myapp
            sleep 20
-    - name: Smoke test
-      run: curl localhost:8000/ht
+           curl localhost:8000/ht
+

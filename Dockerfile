@@ -15,7 +15,6 @@ COPY . $HOMEDIR
 
 RUN chgrp -R 0 $ROOTAPP && \
     chmod -R g=u $ROOTAPP && \
-    chmod 755 $HOMEDIR/start-server.sh
     
 USER 1001
 RUN python3 -m venv $VIRTUAL_ENV && \

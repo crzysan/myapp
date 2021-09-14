@@ -55,7 +55,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: crzysan/myapp:${{ steps.meta.outputs.tags }}
+          tags: crzysan/myapp:latest
 
   deploy_to_server:
     name: Deploy to server
@@ -72,7 +72,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script:  |
-           podman pull docker.io/crzysan/myapp:${{ steps.meta.outputs.tags }}
+           podman pull docker.io/crzysan/myapp:latest
            podman run -ti -d -p 8000:8000 myapp
            sleep 20
            curl localhost:8000/ht

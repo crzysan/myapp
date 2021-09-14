@@ -14,7 +14,7 @@ COPY requirements.txt $HOMEDIR
 COPY . $HOMEDIR
 
 RUN chgrp -R 0 $ROOTAPP && \
-    chmod -R g=u $ROOTAPP && \
+    chmod -R g=u $ROOTAPP
     
 USER 1001
 RUN python3 -m venv $VIRTUAL_ENV && \

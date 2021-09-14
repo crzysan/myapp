@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'health_check.cache',
     'health_check.storage',
     'health_check.contrib.migrations',
-    'health_check.contrib.celery',              # requires celery
-    'health_check.contrib.celery_ping',         # requires celery
+#    'health_check.contrib.celery',              # requires celery
+#    'health_check.contrib.celery_ping',         # requires celery
     'health_check.contrib.psutil',              # disk and memory utilization; requires psutil 
 ]
 

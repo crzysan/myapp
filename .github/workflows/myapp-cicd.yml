@@ -13,7 +13,6 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.7, 3.8, 3.9]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -52,32 +51,11 @@ jobs:
           push: true
           tags: crzysan/myapp:v${{ github.run_number }}
 
-  deploy_to_server:
-    name: Deploy with podman
-    runs-on: ubuntu-latest
-    needs: push_to_registry
-    environment: dev
-    
-    steps:
-    - name: Deploy en smoke test
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script:  |
-           podman pull docker.io/crzysan/myapp:v${{ github.run_number }}
-           podman run -ti -d -p 8000:8000 myapp
-           sleep 20
-           curl localhost:8000/ht
-
   deploy_to_k8s_dev:
     name: Deploy to dev cluster
     runs-on: ubuntu-latest
-    needs: deploy_to_server
+    needs: push_to_registry
     environment: dev
-    
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
@@ -88,8 +66,9 @@ jobs:
         port: ${{ secrets.PORT }}
         script:  |
            kubectl cluster-info --context kind-dev
-           kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:$v{{ github.run_number }}
+           kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            kubectl rollout status -w deployment/myapp-web
+           sleep 20
     - name: Smoke Test
       uses: appleboy/ssh-action@master
       with:

@@ -9,7 +9,7 @@ on:
     
 jobs:
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  deploy_to_k8s_dev:
     name: Deploy to dev cluster
     runs-on: ubuntu-latest
     environment: dev
@@ -22,4 +22,5 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script:  |
-           which kubectl
+           /usr/local/bin/kubectl cluster-info --context kind-dev
+           /usr/local/bin/kubectl get pod

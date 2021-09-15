@@ -3,6 +3,8 @@ name: Django CI
 on:
   pull_request:
     branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
   build:
@@ -63,10 +65,10 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script:  |
-           kubectl cluster-info --context kind-dev
-           kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
-           kubectl rollout status -w deployment/myapp-web
-           sleep 20
+           /usr/local/bin/kubectl cluster-info --context kind-dev
+           /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
+           /usr/local/bin/kubectl rollout status -w deployment/myapp-web
+           /bin/sleep 20
     - name: Smoke Test
       uses: appleboy/ssh-action@master
       with:
@@ -75,4 +77,4 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script:  |
-           curl http://94.227.244.125:8000/ht
+           /usr/bin/curl http://${{ secrets.HOST }}:8000/ht

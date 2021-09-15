@@ -6,7 +6,8 @@ name: CI
 on:
   push:
     branches: [ master ]
-
+    
+jobs:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     name: Deploy to dev cluster

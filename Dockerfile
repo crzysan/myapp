@@ -27,6 +27,7 @@ RUN chgrp -R 0 $ROOTAPP && \
     apt-get autoclean
     
 USER 1001
+
 RUN python3 -m venv $VIRTUAL_ENV && \
     pip --no-cache-dir install --upgrade pip && \
     pip --no-cache-dir install -r $HOMEDIR/requirements.txt

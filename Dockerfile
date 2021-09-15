@@ -14,10 +14,16 @@ COPY requirements.txt $HOMEDIR
 COPY . $HOMEDIR
 
 RUN chgrp -R 0 $ROOTAPP && \
-    chmod -R g=u $ROOTAPP
+    chmod -R g=u $ROOTAPP && \
+    apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y install python3-dev gcc g++ unixodbc-dev && \
+    apt-get clean && \
+    apt-get autoclean
     
 USER 1001
 RUN python3 -m venv $VIRTUAL_ENV && \
+    pip --no-cache-dir install --upgrade pip && \
     pip --no-cache-dir install -r $HOMEDIR/requirements.txt
 
 WORKDIR $HOMEDIR

@@ -69,12 +69,14 @@ jobs:
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
            /bin/sleep 20
+
+  test_deployment:
+    name: Test dev cluster
+    runs-on: ubuntu-latest
+    needs: deploy_to_k8s_dev
+    environment: staging
+    steps:
     - name: Smoke Test
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script:  |
-           /usr/bin/curl http://${{ secrets.HOST }}:8000/ht
+      run: |
+        curl -I ${{ secrets.WEBAPP_URL }}
+        curl -I ${{ secrets.WEBAPP_URL }}/ht

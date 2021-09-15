@@ -6,6 +6,7 @@ EMAIL=admin@myapp.com
 PASSWORD=admin
 
 python manage.py makemigrations
+python manage.py makemigrations feedapp
 python manage.py migrate
 #python manage.py createsuperuser
 # create user is not exist

@@ -7,6 +7,7 @@ from .models import Post, Report, User
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from datetime import datetime
+from urllib.parse import urlencode
 
 
 # Create your views here.
@@ -87,6 +88,6 @@ def logout(request):
     django_logout(request)
     domain = settings.SOCIAL_AUTH_AUTH0_DOMAIN
     client_id = settings.SOCIAL_AUTH_AUTH0_KEY
-    return_to = 'http://127.0.0.1:8000' # this can be current domain
+    return_to = 'http://94.227.244.125:8000' # this can be current domain
     return redirect(f'https://{domain}/v2/logout?client_id={client_id}&returnTo={return_to}')
 

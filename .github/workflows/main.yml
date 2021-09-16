@@ -25,10 +25,9 @@ jobs:
         pip install pylint django pylint_django
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=F0001 `ls -R */|grep .py$|xargs`
+        pylint --disable=F0001 feed/*.py
+        pylint --disable=F0001 feedapp/*.py
 
-
-        
   # Label of the container job
   container-job:
     # Containers must run in Linux based operating systems
@@ -59,7 +58,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add
+        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
         curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
         apt-get update
         ACCEPT_EULA=Y apt-get install -y msodbcsql17

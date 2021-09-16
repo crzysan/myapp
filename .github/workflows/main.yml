@@ -34,17 +34,15 @@ jobs:
         apt update -y
         apt install software-properties-common -y
         yes | add-apt-repository ppa:deadsnakes/ppa
-        apt install -y python3 apt-transport-https
+        apt install -y python3.9 apt-transport-https
         ls -latr /usr/bin/python*
         rm -rf /usr/bin/python
-        ln -s /usr/bin/python3.4 /usr/bin/python
+        ln -s /usr/bin/python3.9 /usr/bin/python
         apt-get install -y gnupg
         apt-get install curl -y
-        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-        curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
         apt-get update -y
         ACCEPT_EULA=Y apt-get install -y msodbcsql17
-        apt-get -y install python3.7-dev gcc g++ unixodbc-dev
+        apt-get -y install python3-dev gcc g++ unixodbc-dev
         python -m virtualenv antenv
         source antenv/bin/activate
         pip install --upgrade pip

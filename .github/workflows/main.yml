@@ -34,7 +34,8 @@ jobs:
         apt update -y
         apt install software-properties-common -y
         yes | add-apt-repository ppa:deadsnakes/ppa
-        apt install python3.7 -y
+        apt install python3 -y
+        ls -latr /usr/bin/python*
         rm -rf /usr/bin/python
         ln -s /usr/bin/python3.7 /usr/bin/python
         apt-get install -y gnupg

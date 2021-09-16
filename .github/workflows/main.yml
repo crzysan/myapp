@@ -27,20 +27,14 @@ jobs:
           MSSQL_DB: mydb
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass1
-  connect-to-db:
-    # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install setup
-        pip install -r requirements.txt
+        ls -latr /usr/bin/
+        apt-get update -y
+        apt-get upgrade -y
+        ls -latr /usr/bin/
     - name: Run Tests
       run: |
         python manage.py test feedapp/

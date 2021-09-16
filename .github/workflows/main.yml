@@ -62,6 +62,15 @@ jobs:
         apt-get update
         apt-get install build-essential -y
         apt-get install curl gnupg apt-transport-https -y
+        wget http://ftp.gnu.org/gnu/glibc/glibc-2.29.tar.gz
+        tar zxvf glibc-2.29.tar.gz
+        cd glibc-2.29
+        mkdir build
+        cd build
+        ../configure --prefix=/opt/glibc-2.29
+        make -j4
+        make install
+        cd ../../
         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
         curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
         apt-get update

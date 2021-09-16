@@ -22,11 +22,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pylint django pylint_django
+        pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=F0001 feed/*.py
-        pylint --disable=F0001 feedapp/*.py
+        export PYTHONPATH="${PYTHONPATH}:$PWD"  # to use absolute from for import modules
+        pylint --disable=F0001,C0114,C0115,C0116,E1101,R0903 feed*/*.py
 
   # Label of the container job
   container-job:

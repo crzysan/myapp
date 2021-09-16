@@ -31,13 +31,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
+        lsb_release -a
         apt update -y
         apt install software-properties-common -y
         yes | add-apt-repository ppa:deadsnakes/ppa
-        apt install python3 -y
+        apt install -y python3 apt-transport-https
         ls -latr /usr/bin/python*
         rm -rf /usr/bin/python
-        ln -s /usr/bin/python3.7 /usr/bin/python
+        ln -s /usr/bin/python3.4 /usr/bin/python
         apt-get install -y gnupg
         apt-get install curl -y
         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -

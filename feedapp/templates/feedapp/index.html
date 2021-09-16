@@ -45,11 +45,7 @@
         </div>
       </NonAmpContent>
    </article>
-  {% endfor %}
-
-</AmpContent>
-{% if posts.objects.count() == 0 %}
-<NonAmpContent>
+  {% empty %}
   <article class="media">
     <div class="media-content">
       <div class="content has-text-centered">
@@ -57,8 +53,8 @@
       </div>
     </div>
   </article>
-</NonAmpContent>
-{% endif %}
+
+  {% endfor %}
 
 {% endblock %}
 

@@ -49,11 +49,16 @@ jobs:
           MSSQL_PASSWORD: Mypass1
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
     - name: Install dependencies
       run: |
         ls -latr /usr/bin/python
         apt-get update
-        apt-get install python3.7 -y
+        apt-get upgrade
+        which python
     - name: Run Tests
       run: |
         python manage.py test feedapp/

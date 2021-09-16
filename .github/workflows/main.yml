@@ -25,7 +25,8 @@ jobs:
         pip install pylint django pylint_django
     - name: Analysing the code with pylint
       run: |
-        DJANGO_SETTINGS_MODULE=feed.settings pylint --load-plugins pylint_django feed/*.py
+        pylint --disable=F0001 `ls -R */|grep .py$|xargs`
+
 
         
   # Label of the container job

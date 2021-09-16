@@ -10,24 +10,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Label of the container job
-  container-job:
-    # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
-    services:
-      mymssqlserver:
-        image: docker.io/crzysan/mssqldocker:latest
-        ports:
-        - 1443:1433/tcp
-        env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: Passw0rd
-          MSSQL_DB: mydb
-          MSSQL_USER: myuser
-          MSSQL_PASSWORD: Mypass1
-          
+
   syntaxt-check:
     runs-on: ubuntu-latest
     steps:
@@ -43,14 +26,29 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint `ls -R|grep .py$|xargs`
-
-  build:
+        
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.7, 3.8, 3.9]
     needs: syntaxt-check
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+    services:
+      mymssqlserver:
+        image: docker.io/crzysan/mssqldocker:latest
+        ports:
+        - 1443:1433/tcp
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: Passw0rd
+          MSSQL_DB: mydb
+          MSSQL_USER: myuser
+          MSSQL_PASSWORD: Mypass1
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}

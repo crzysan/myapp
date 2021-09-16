@@ -55,6 +55,9 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
+        apt-get install python3.7 -y
+        rm -rf /usr/bin/python
+        ln -s /usr/bin/python3.7 /usr/bin/python
         python -m virtualenv antenv
         source antenv/bin/activate
         pip install virtualenv

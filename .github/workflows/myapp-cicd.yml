@@ -27,6 +27,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: syntaxt-check
     strategy:
       max-parallel: 4
       matrix:
@@ -48,7 +49,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    needs: build
+    needs: syntaxt-check
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2

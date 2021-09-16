@@ -11,6 +11,20 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Set the project base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 AUTH_USER_MODEL = 'feedapp.User'
 
@@ -22,12 +36,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#k%tlnn)qokkdd&3n2xbp-d^4n-v%ku3+px8e^ugm6rka=+wi5'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = ['192.168.0.125', '94.227.244.125', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -90,11 +103,11 @@ WSGI_APPLICATION = 'feed.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
-        "NAME": "mydb",
-        "USER": "myuser",
-        "PASSWORD": "Mypass1",
-        "HOST": "mymssqlserver",
-        "PORT": "1433",
+        "NAME": env('DATABASE_NAME'),
+        "USER": env('DATABASE_USER'),
+        "PASSWORD": env('DATABASE_PASS'),
+        "HOST": env('DATABASE_HOST'),
+        "PORT": env('DATABASE_PORT'),
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
         },
     },
@@ -146,9 +159,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Auth0 settings
 SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
-SOCIAL_AUTH_AUTH0_DOMAIN = 'dev-9xfdlfws.us.auth0.com'
-SOCIAL_AUTH_AUTH0_KEY = 'Nz44CViNb2DCOF3q5coXZregIWU9TuVw'
-SOCIAL_AUTH_AUTH0_SECRET = 'a6WvIEtxYU3rBQib5BDUrNaWgoBwSmKt9LlKt8MYb25Ir6sDT2KOvrPtxt5cCy0N'
+SOCIAL_AUTH_AUTH0_DOMAIN = env('AUTH0_DOMAIN')
+SOCIAL_AUTH_AUTH0_KEY = env('AUTH0_KEY')
+SOCIAL_AUTH_AUTH0_SECRET = env('AUTH0_SECRET')
 SOCIAL_AUTH_AUTH0_SCOPE = [
     'openid',
     'profile',

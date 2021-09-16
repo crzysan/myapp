@@ -1,11 +1,12 @@
-from django.forms import ModelForm, Textarea, TextInput
+"""Post form method"""
+from django.forms import ModelForm, TextInput
 
-from .models import Post
+from feedapp.models import Post
 
 class PostForm(ModelForm):
-  class Meta:
-    model = Post
-    fields = ['text']
-    widgets = {
-      'text': TextInput(attrs={'class' : 'input', 'placeholder' : 'Say something...'}),
-    }
+    class Meta:
+        model = Post
+        fields = ['text']
+        widgets = {
+          'text': TextInput(attrs={'class' : 'input', 'placeholder' : 'Say something...'}),
+        }

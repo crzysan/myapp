@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'health_check.contrib.migrations',
 #    'health_check.contrib.celery',              # requires celery
 #    'health_check.contrib.celery_ping',         # requires celery
-    'health_check.contrib.psutil',              # disk and memory utilization; requires psutil 
+    'health_check.contrib.psutil',              # disk and memory utilization; requires psutil
 ]
 
 
@@ -95,7 +95,7 @@ DATABASES = {
         "PASSWORD": "Mypass1",
         "HOST": "mymssqlserver",
         "PORT": "1433",
-        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
         },
     },
 }

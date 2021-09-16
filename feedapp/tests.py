@@ -1,9 +1,10 @@
+"""Test django app."""
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.test.client import Client
 
 # store the password to login later
-PASSWORD = 'mypassword' 
+PASSWORD = 'mypassword'
 USERNAME = 'admin'
 EMAIL = 'admin@myapp.com'
 
@@ -18,6 +19,7 @@ class UserTestCase(TestCase):
 
     def test_animals_can_speak(self):
         """Users that exists are correctly identified"""
-        c = Client()
+        client = Client()
         admin_user = User.object.get(username="admin")
-        self.assertEqual(c.login(username=admin_user.username, password=admin_user.password), 'Admin user is logged in and says "Hello!"')
+        self.assertEqual(client.login(username=admin_user.username, password=admin_user.password),
+                         'Admin user is logged in and says "Hello!"')

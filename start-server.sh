@@ -5,6 +5,7 @@ USERNAME=admin
 EMAIL=admin@myapp.com
 PASSWORD=admin
 
+export PYTHONPATH="${PYTHONPATH}:$PWD"
 python manage.py makemigrations
 python manage.py makemigrations feedapp
 python manage.py migrate

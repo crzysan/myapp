@@ -5,8 +5,8 @@ psutil~=5.8.0
 python-jose~=3.0
 python-dotenv~=0.9
 celery~=5.1.2
-
 mssql-django~=1.0
+#reindent~=3.5.1
 #django-mssql-backend~=2.8.1
 #mssql~=1.0.1
 #django-mssql~=1.8

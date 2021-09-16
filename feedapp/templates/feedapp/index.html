@@ -48,7 +48,7 @@
   {% endfor %}
 
 </AmpContent>
-
+{% if posts.objects.count() == 0 %}
 <NonAmpContent>
   <article class="media">
     <div class="media-content">
@@ -58,6 +58,7 @@
     </div>
   </article>
 </NonAmpContent>
+{% endif %}
 
 {% endblock %}
 

@@ -59,7 +59,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        apt-get install apt-transport-https
+        apt-get update
+        apt-get install curl -y
+        apt-get install apt-transport-https -y
         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
         curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
         apt-get update

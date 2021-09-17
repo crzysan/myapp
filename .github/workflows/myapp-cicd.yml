@@ -103,8 +103,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run Tests
       run: |
-        curl -I myapp:8000
-        curl -I myapp:8000/ht
+        wait 60
+        curl -I 127.0.0.1:8000
+        curl -I 127.0.0.1:8000/ht
       # docker exec -ti myapp python manage.py test feedapp/
         
   deploy_to_k8s_dev:

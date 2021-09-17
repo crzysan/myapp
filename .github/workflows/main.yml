@@ -33,7 +33,7 @@ jobs:
       myapp:
         image: docker.io/crzysan/myapp:v64
         ports:
-        - 1443:1433/tcp
+        - 8000:8000/tcp
         env:
           IMAGE_APP: docker.io/crzysan/myapp:latest
           DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}

@@ -21,7 +21,7 @@ jobs:
     container: node:10.18-jessie
     services:
       mymssqlserver:
-        image: docker.io/crzysan/mssqldocker:latest
+        image: docker.io/crzysan/mssql-docker:latest
         ports:
         - 1443:1433/tcp
         env:

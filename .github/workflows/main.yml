@@ -48,6 +48,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run Tests
       run: |
-        docker logs myapp
         curl -I localhost:8000/ht
 

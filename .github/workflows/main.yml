@@ -48,6 +48,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run Tests
       run: |
-        docker exec -ti myapp python manage.py test feedapp/
-
+        docker logs myapp
+        curl -I localhost:8000/ht
 

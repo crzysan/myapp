@@ -3,7 +3,10 @@ name: Django CI
 on:
   pull_request:
     branches: [ master ]
-
+#  push:
+#    branches: [ master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
   syntaxt-check:
     runs-on: ubuntu-latest
@@ -25,6 +28,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    needs: syntaxt-check
     strategy:
       max-parallel: 4
       matrix:
@@ -46,7 +50,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    needs: build
+    needs: syntaxt-check
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -66,7 +70,43 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: crzysan/myapp:v${{ github.run_number }}
-
+          
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    needs: push_to_registry
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+    services:
+      mymssqlserver:
+        image: docker.io/crzysan/mssql-docker:latest
+        ports:
+        - 1443:1433/tcp
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: Passw0rd
+          MSSQL_DB: mydb
+          MSSQL_USER: myuser
+          MSSQL_PASSWORD: Mypass1
+      myapp:
+        image: docker.io/crzysan/myapp:v${{ github.run_number }}
+        ports:
+        - 8000:8000/tcp
+        env:
+          DATABASE_NAME: mydb
+          DATABASE_HOST: localhost
+          DATABASE_PASS: Passw0rd
+          DATABASE_USER: SA
+          DATABASE_PORT: 1433
+          SECRET_KEY: h^z13$qr_s_wd65@gnj7a=xs7t05$w7q8!x_8zsld#
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Tests
+      run: |
+        wait 60
+        docker logs myapp
+        
   deploy_to_k8s_dev:
     name: Deploy to dev cluster
     runs-on: ubuntu-latest

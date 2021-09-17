@@ -4,9 +4,12 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    branches: [ master ]
   push:
     branches: [ master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,7 +21,7 @@ jobs:
     container: node:10.18-jessie
     services:
       mymssqlserver:
-        image: docker.io/crzysan/mssqldocker:latest
+        image: docker.io/crzysan/mssql-docker:latest
         ports:
         - 1443:1433/tcp
         env:
@@ -27,25 +30,23 @@ jobs:
           MSSQL_DB: mydb
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass1
+      myapp:
+        image: docker.io/crzysan/myapp:latest
+        ports:
+        - 8000:8000/tcp
+        env:
+          IMAGE_APP: docker.io/crzysan/myapp:latest
+          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
+          DATABASE_NAME: mydb
+          DATABASE_HOST: localhost
+          DATABASE_PASS: Passw0rd
+          DATABASE_USER: SA
+          DATABASE_PORT: 1433
+          SECRET_KEY: h^z13$qr_s_wd65@gnj7a=xs7t05$w7q8!x_8zsld#
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        apt update
-        apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev wget libbz2-dev
-        wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
-        tar -xf Python-3.7.4.tgz
-        cd Python-3.7.4
-        ./configure --enable-optimizations
-        make -j 8
-        make altinstall
-        python3.7 --version
-
     - name: Run Tests
       run: |
-        python manage.py makemigrations
-        python manage.py makemigrations feedapp
-        python manage.py migrate
-        python manage.py test feedapp/
-
+        curl -I myapp:8000/ht
 

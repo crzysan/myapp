@@ -31,7 +31,7 @@ jobs:
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass1
       myapp:
-        image: docker.io/crzysan/myapp:latest
+        image: docker.io/crzysan/myapp:v64
         ports:
         - 1443:1433/tcp
         env:

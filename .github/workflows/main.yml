@@ -48,5 +48,7 @@ jobs:
       run: docker ps -a
     - name: Check logs
       run: docker logs myapp-web
+    - name: Wait 30 sec untill application started
+      run: wait 30
     - name: Run test
       run: curl -I localhost:8000

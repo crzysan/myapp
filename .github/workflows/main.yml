@@ -45,10 +45,10 @@ jobs:
     - name: Build the docker-compose stack
       run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers
-      run: docker ps -a
+      run: docker ps
     - name: Check logs
-      run: docker logs myapp-web
-    - name: Wait 30 sec untill application started
-      run: sleep 30
+      run: |
+        docker logs mssql-server
+        docker logs myapp-web
     - name: Run test
       run: docker exec -ti myapp-web curl -I localhost:8000

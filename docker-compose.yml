@@ -17,7 +17,7 @@ services:
   myapp:
     build: .
     environment:
-      SECRET_KEY: ${ MY_SECRET_KEY }
+      SECRET_KEY: "${MY_SECRET_KEY}"
       DATABASE_NAME: mydb
       DATABASE_HOST: db
       DATABASE_PASS: Passw0rd

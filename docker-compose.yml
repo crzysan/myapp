@@ -9,7 +9,7 @@ services:
       SA_PASSWORD: Passw0rd
       MSSQL_DB: mydb
       MSSQL_USER: myuser
-      MSSQL_PASSWORD: Mypass1
+      MSSQL_PASSWORD: Mypass123
     ports:
       - "1433:1433"
     container_name: mssql-server
@@ -19,10 +19,11 @@ services:
     environment:
       SECRET_KEY: "${SECRET_KEY}"
       DATABASE_NAME: mydb
-      DATABASE_HOST: db
-      DATABASE_PASS: Passw0rd
-      DATABASE_USER: SA
+      DATABASE_HOST: mssql-server
+      DATABASE_PASS: Mypass123
+      DATABASE_USER: myuser
       DATABASE_PORT: 1433
+      DEBUG: "true"
     ports:
       - "8000:8000"
     depends_on:

@@ -24,6 +24,9 @@ services:
       DATABASE_USER: myuser
       DATABASE_PORT: 1433
       DEBUG: "true"
+      AUTH0_DOMAIN: "${AUTH0_DOMAIN}"
+      AUTH0_KEY: "${AUTH0_KEY}"
+      AUTH0_SECRET: "${AUTH0_SECRET}"
     ports:
       - "8000:8000"
     depends_on:

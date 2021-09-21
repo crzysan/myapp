@@ -23,17 +23,6 @@ class UserTestCase(TestCase):
     def test_admin_login(cls):
         """Users that exists are correctly identified"""
         client = Client()
-        response = client.post('/admin/login/', {'username': 'USERNAME', 'password': '$PASSWORD'})
-        print(response.status_code)
-        response = client.get('/admin/feedapp/user/')
-        print(response.content)
-        return response.content
-
-    @classmethod
-    def test_create_post(cls):
-        client = Client()
-        test_user =  User.objects.create_superuser("test", "test@myapp", "test")
-        print(test_user)
-        response = client.post('/', {'user': 'test_user', 'text': "This is a test"})
-        print(response.status_code)
+        response = client.post('/admin/login/', {'username': 'USERNAME', 'password': 'PASSWORD'})
+        print(response)
         return response.status_code

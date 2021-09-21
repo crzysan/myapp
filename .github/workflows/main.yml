@@ -9,25 +9,23 @@ on:
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Label of the container job
-  container-job:
-    # Containers must run in Linux based operating systems
+  # Label build
+  build:
     runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
-    services:
-      mymssqlserver:
-        image: docker.io/crzysan/mssql-docker:latest
-        ports:
-        - 1443:1433/tcp
-        env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: Passw0rd
-          MSSQL_DB: mydb
-          MSSQL_USER: myuser
-          MSSQL_PASSWORD: Mypass1
-    steps:
-    - uses: actions/checkout@v2
-    - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up -d --build myapp
+    #env:
+    #  PG_PASS: ${{ secrets.PG_PASS }}
+    #  DATABASE_URL: postgresql://postgres:${{ secrets.SECRET_PASSWORD }}@postgres/postgres
+    #  DJANGO_SETTINGS_MODULE: app_name.settings.dev
+    #  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    #  PORT: 8000
 
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the docker-compose stack
+      run: docker-compose -f docker-compose.yml up -d
+    - name: Check running containers
+      run: docker ps -a
+    - name: Check logs
+      run: docker logs myapp
+    - name: Run test suite
+      run: docker exec myapp pytest --skip-auth

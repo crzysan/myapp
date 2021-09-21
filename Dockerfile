@@ -37,3 +37,4 @@ WORKDIR $HOMEDIR
 
 CMD ["/bin/bash", "start-server.sh"]
 
+HEALTHCHECK --interval=1m --timeout=5s --retries=2 --start-period=10s CMD curl --fail http://localhost:3000/ht/ || exit 1

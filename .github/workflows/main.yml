@@ -33,8 +33,10 @@ jobs:
     needs: syntaxt-check 
     env:
        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+       AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
+       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
     #env:
-    #  PG_PASS: ${{ secrets.PG_PASS }}
     #  DATABASE_URL: postgresql://postgres:${{ secrets.SECRET_PASSWORD }}@postgres/postgres
     #  DJANGO_SETTINGS_MODULE: app_name.settings.dev
     #  SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -45,10 +47,14 @@ jobs:
     - name: Build the docker-compose stack
       run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers
-      run: docker ps -a
+      run: docker ps
+    - name: wait for containers 120 sec
+      run: sleep 60
+    - name: Check running containers again
+      run: docker ps
     - name: Check logs
-      run: docker logs myapp-web
-    - name: Wait 30 sec untill application started
-      run: wait 30
+      run: |
+        docker logs mssql-server
+        docker logs myapp-web
     - name: Run test
       run: curl -I localhost:8000

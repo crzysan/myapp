@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: myapp-config
 data:
-  SECRET_KEY= h^z13$qr_s_wd65@gnj7a=xs7t05$w7q8!x_8zsld#
-  DATABASE_HOST: 94.227.244.125
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DATABASE_HOST: localhost
   DATABASE_NAME: mydb
   DATABASE_NAME: Passw0rd
   DATABASE_USER: SA

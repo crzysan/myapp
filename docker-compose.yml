@@ -14,9 +14,10 @@ services:
       - "1433:1433"
     container_name: mssql-server
 
-  webapp:
+  myapp:
     build: .
     environment:
+      SECRET_KEY: "${MY_SECRET_KEY}"
       DATABASE_NAME: mydb
       DATABASE_HOST: db
       DATABASE_PASS: Passw0rd

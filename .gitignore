@@ -8,6 +8,9 @@ health_check_storage_test
 db.sqlite3
 media
 feedapp/migrations
+.ci/
+feed/settings/
+k8s/deployment.yml.back
 
 # Backup files # 
 *.bak 

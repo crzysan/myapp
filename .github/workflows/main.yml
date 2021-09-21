@@ -27,5 +27,5 @@ jobs:
       run: docker ps -a
     - name: Check logs
       run: docker logs myapp-web
-    - name: Run test suite
-      run: docker exec myapp-web pytest --skip-auth
+    - name: Run test
+      run: curl -I localhost:8000

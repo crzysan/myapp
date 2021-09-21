@@ -3,7 +3,7 @@ version: "3.9"
 
 services:
   db:
-    image: crzysan:mssql-docker:latest
+    image: crzysan/mssql-docker:latest
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: Passw0rd
@@ -13,11 +13,17 @@ services:
     ports:
       - "1433:1433"
     container_name: mssql-server
+
   webapp:
     build: .
-    volumes:
-      - .:/opt/app
+    environment:
+      DATABASE_NAME: mydb
+      DATABASE_HOST: db
+      DATABASE_PASS: Passw0rd
+      DATABASE_USER: SA
+      DATABASE_PORT: 1433
     ports:
       - "8000:8000"
     depends_on:
       - db
+    container_name: myapp-web

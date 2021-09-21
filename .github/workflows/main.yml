@@ -8,9 +8,7 @@ on:
     branches: [ master ]
   push:
     branches: [ master ]
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Label of the container job
@@ -30,23 +28,9 @@ jobs:
           MSSQL_DB: mydb
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass1
-      myapp:
-        image: docker.io/crzysan/myapp:v64
-        ports:
-        - 8000:8000/tcp
-        env:
-          IMAGE_APP: docker.io/crzysan/myapp:latest
-          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
-          DATABASE_NAME: mydb
-          DATABASE_HOST: localhost
-          DATABASE_PASS: Passw0rd
-          DATABASE_USER: SA
-          DATABASE_PORT: 1433
-          SECRET_KEY: h^z13$qr_s_wd65@gnj7a=xs7t05$w7q8!x_8zsld#
     steps:
     - uses: actions/checkout@v2
-    - name: Run Tests
+    - name: build docker image
       run: |
-        curl -I localhost:8000
+        which docker-compose
 

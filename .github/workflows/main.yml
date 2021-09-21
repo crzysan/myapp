@@ -26,6 +26,6 @@ jobs:
     - name: Check running containers
       run: docker ps -a
     - name: Check logs
-      run: docker logs myapp
+      run: docker logs myapp-web
     - name: Run test suite
-      run: docker exec myapp pytest --skip-auth
+      run: docker exec myapp-web pytest --skip-auth

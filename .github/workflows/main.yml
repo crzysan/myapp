@@ -38,8 +38,8 @@ jobs:
         env:
           DATABASE_NAME: mydb
           DATABASE_HOST: mymssqlserver
-          DATABASE_PASS: Mypass123
-          DATABASE_USER: myuser
+          DATABASE_PASS: passw0rd
+          DATABASE_USER: sa
           DATABASE_PORT: 1433
           DEBUG: "true"
     steps:

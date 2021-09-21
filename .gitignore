@@ -11,6 +11,7 @@ feedapp/migrations
 .ci/
 feed/settings/
 k8s/deployment.yml.back
+k8s/configmap.yaml
 
 # Backup files # 
 *.bak 

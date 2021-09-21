@@ -19,18 +19,17 @@ class UserTestCase(TestCase):
     def setUp(self):
         User.objects.create_superuser('$USERNAME', '$EMAIL', '$PASSWORD')
 
-    def test_admin_login(self):
+    def test_admin_login():
         """Users that exists are correctly identified"""
         client = Client()
         response = client.post('/admin/login/', {'username': 'USERNAME', 'password': '$PASSWORD'})
         print(response.status_code)
         response = client.get('/admin/feedapp/user/')
         print(response.content)
-   
-    def test_create_post(self):
+
+    def test_create_post():
         client = Client()
         test_user =  User.objects.create_superuser("test", "test@myapp", "test")
         print(test_user)
-        #response = client.post('/', {'user': 'test_user', 'text': "This is a test"})
-        #print(response.status_code)
-
+        response = client.post('/', {'user': 'test_user', 'text': "This is a test"})
+        print(response.status_code)

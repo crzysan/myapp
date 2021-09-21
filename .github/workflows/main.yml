@@ -41,7 +41,7 @@ jobs:
           DATABASE_PASS: Mypass123
           DATABASE_USER: myuser
           DATABASE_PORT: 1433
-          SECRET_KEY: "${SECRET_KEY}"
+          DEBUG: "true"
     steps:
     - uses: actions/checkout@v2
     - name: Run Tests

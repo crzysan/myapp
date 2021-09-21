@@ -51,4 +51,4 @@ jobs:
     - name: Wait 30 sec untill application started
       run: sleep 30
     - name: Run test
-      run: curl -I localhost:8000
+      run: docker exec -ti myapp-web curl -I localhost:8000

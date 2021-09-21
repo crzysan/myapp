@@ -12,6 +12,8 @@ jobs:
   # Label build
   build:
     runs-on: ubuntu-latest
+    env:
+      MY_SECRET_KEY: ${{ secrets.SECRET_KEY }}
     #env:
     #  PG_PASS: ${{ secrets.PG_PASS }}
     #  DATABASE_URL: postgresql://postgres:${{ secrets.SECRET_PASSWORD }}@postgres/postgres

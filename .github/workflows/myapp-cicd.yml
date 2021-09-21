@@ -99,7 +99,7 @@ jobs:
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass123
       myapp:
-        image: docker.io/crzysan/myapp:v${{ github.run_number }}
+        image: docker.io/crzysan/myapp:v76
         ports:
         - 8000:8000/tcp
         env:

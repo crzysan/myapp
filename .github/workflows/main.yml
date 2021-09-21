@@ -46,6 +46,10 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers
       run: docker ps
+    - name: wait for containers 120 sec
+      run: sleep 120
+    - name: Check running containers again
+      run: docker ps
     - name: Check logs
       run: |
         docker logs mssql-server

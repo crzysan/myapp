@@ -26,21 +26,21 @@ jobs:
         ports:
         - 1443:1433/tcp
         env:
-          ACCEPT_EULA: Y
-          SA_PASSWORD: Passw0rd
-          MSSQL_DB: mydb
-          MSSQL_USER: myuser
-          MSSQL_PASSWORD: Mypass123
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: "Passw0rd"
+          MSSQL_DB: "mydb"
+          MSSQL_USER: "myuser"
+          MSSQL_PASSWORD: "Mypass123"
       myapp:
         image: docker.io/crzysan/myapp:v76
         ports:
         - 8000:8000/tcp
         env:
-          DATABASE_NAME: mydb
+          DATABASE_NAME: "mydb"
           DATABASE_HOST: mymssqlserver
-          DATABASE_PASS: passw0rd
-          DATABASE_USER: sa
-          DATABASE_PORT: 1433
+          DATABASE_PASS: "Mypass123"
+          DATABASE_USER: "myuser"
+          DATABASE_PORT: "1433"
           DEBUG: "true"
     steps:
     - uses: actions/checkout@v2

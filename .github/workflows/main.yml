@@ -57,4 +57,4 @@ jobs:
         docker logs mssql-server
         docker logs myapp-web
     - name: Run test
-      run: docker exec -ti myapp-web curl -I localhost:8000
+      run: curl -I localhost:8000

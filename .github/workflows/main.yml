@@ -49,7 +49,7 @@ jobs:
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec
-      run: sleep 120
+      run: sleep 60
     - name: Check running containers again
       run: docker ps
     - name: Check logs
@@ -57,4 +57,4 @@ jobs:
         docker logs mssql-server
         docker logs myapp-web
     - name: Run test
-      run: docker exec -ti myapp-web curl -I localhost:8000
+      run: curl -I localhost:8000

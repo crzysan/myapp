@@ -76,20 +76,30 @@ jobs:
           tags: crzysan/myapp:v${{ github.run_number }}
           
   # Label of the container job
-  test-image:
+  deploy_to_k8s_dev:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     needs: push_to_registry
+    name: Deploy to dev cluster
+    environment: dev
     steps:
-    - uses: actions/checkout@v2
-    - name: Run Tests
-      run: |
-        echo test
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASS }}
+        port: ${{ secrets.SERVER_PORT }}
+        script:  |
+           /usr/local/bin/kubectl cluster-info --context kind-dev
+           /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
+           /usr/local/bin/kubectl rollout status -w deployment/myapp-web
+           /bin/sleep 20
         
   deploy_to_k8s_prod:
     name: Deploy to prod cluster
     runs-on: ubuntu-latest
-    needs: test-image
+    needs: deploy_to_k8s_dev
     environment: prod
     steps:
     - name: Deploy
@@ -106,7 +116,7 @@ jobs:
            /bin/sleep 20
 
   test_deployment:
-    name: Test dev cluster
+    name: Test prod cluster
     runs-on: ubuntu-latest
     needs: deploy_to_k8s_prod
     steps:

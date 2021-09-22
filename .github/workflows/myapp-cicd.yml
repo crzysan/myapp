@@ -7,6 +7,7 @@ on:
 #    branches: [ master ]
 
 jobs:
+
   syntaxt-check:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +25,7 @@ jobs:
       run: |
         export PYTHONPATH="${PYTHONPATH}:$PWD"  # to use absolute from for import modules
         pylint --disable=F0001,C0114,C0115,C0116,E1101,R0903 feed*/*.py
-
+        
   build:
     name: Build docker image and test it using docker-compose
     runs-on: ubuntu-latest
@@ -141,7 +142,7 @@ jobs:
            /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
-
+           
   test_dev_deployment:
     name: Test dev cluster
     runs-on: ubuntu-latest

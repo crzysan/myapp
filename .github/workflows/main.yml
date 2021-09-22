@@ -36,7 +36,7 @@ jobs:
         ports:
           - 1433:1433
 
-      mssql-server:
+      myapp:
         image: crzysan/myapp:v83
         env:
           SECRET_KEY: "${SECRET_KEY}"

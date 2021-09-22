@@ -35,7 +35,6 @@ jobs:
           --health-retries 5
         ports:
           - 1433:1433
-
       myapp:
         image: crzysan/myapp:v83
         env:
@@ -51,6 +50,8 @@ jobs:
           AUTH0_SECRET: "${AUTH0_SECRET}"
         ports:
           - 8000:8000
+        depends_on:
+          - mssql-server
 
     steps:
       - uses: actions/checkout@v1

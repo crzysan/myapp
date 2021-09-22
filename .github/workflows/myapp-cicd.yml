@@ -112,5 +112,5 @@ jobs:
     steps:
     - name: Smoke Test
       run: |
-        curl -I ${{ secrets.WEBAPP_URL }}
-        curl -I ${{ secrets.WEBAPP_URL }}/ht
+        curl -I http://${{ secrets.SERVER_HOST }}
+        curl -I http://${{ secrets.SERVER_HOST }}/ht

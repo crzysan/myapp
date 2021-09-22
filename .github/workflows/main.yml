@@ -35,23 +35,9 @@ jobs:
           --health-retries 5
         ports:
           - 1433:1433
-      myapp:
-        image: crzysan/myapp:v83
-        env:
-          SECRET_KEY: "${SECRET_KEY}"
-          DATABASE_NAME: mydb
-          DATABASE_HOST: mssql-server
-          DATABASE_PASS: Mypass123
-          DATABASE_USER: myuser
-          DATABASE_PORT: 1433
-          DEBUG: "true"
-          AUTH0_DOMAIN: "${AUTH0_DOMAIN}"
-          AUTH0_KEY: "${AUTH0_KEY}"
-          AUTH0_SECRET: "${AUTH0_SECRET}"
-        ports:
-          - 8000:8000
     steps:
       - uses: actions/checkout@v1
       - name: Test with black
         run: |
-          curl -I http://127.0.0.1:8000
+          docker logs mssql-server
+          docker exec -ti mssql-server  /opt/mssql-tools/bin/sqlcmd -S localhost -U myuser -P 'Mypass123 -d mydb -Q "select 1"

@@ -138,7 +138,7 @@ jobs:
         script:  |
            /usr/local/bin/kubectl cluster-info --context kind-dev
            /usr/local/bin/kubectl config use-context kind-dev
-           /usr/local/bin/kubectl set-context --current --namespace=development
+           /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
 
@@ -168,7 +168,7 @@ jobs:
         script:  |
            /usr/local/bin/kubectl cluster-info --context kind-prod
            /usr/local/bin/kubectl config use-context kind-prod
-           /usr/local/bin/kubectl set-context --current --namespace=production
+           /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
 

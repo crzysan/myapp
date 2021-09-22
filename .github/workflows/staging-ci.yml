@@ -58,9 +58,9 @@ jobs:
         image: crzysan/myapp:v83
         env:
           DATABASE_NAME: mydb
-          DATABASE_HOST: mssql-server2
-          DATABASE_PASS: Passw0rd
-          DATABASE_USER: sa
+          DATABASE_HOST: mssql-server
+          DATABASE_PASS: Mypass123
+          DATABASE_USER: myuser
           DATABASE_PORT: 1433
           DEBUG: "true"
         ports:

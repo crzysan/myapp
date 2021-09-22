@@ -7,6 +7,7 @@ on:
 #    branches: [ master ]
 
 jobs:
+
   syntaxt-check:
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +25,7 @@ jobs:
       run: |
         export PYTHONPATH="${PYTHONPATH}:$PWD"  # to use absolute from for import modules
         pylint --disable=F0001,C0114,C0115,C0116,E1101,R0903 feed*/*.py
-
+        
   build:
     name: Build docker image and test it using docker-compose
     runs-on: ubuntu-latest
@@ -138,10 +139,10 @@ jobs:
         script:  |
            /usr/local/bin/kubectl cluster-info --context kind-dev
            /usr/local/bin/kubectl config use-context kind-dev
-           /usr/local/bin/kubectl set-context --current --namespace=development
+           /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
-
+           
   test_dev_deployment:
     name: Test dev cluster
     runs-on: ubuntu-latest
@@ -168,9 +169,33 @@ jobs:
         script:  |
            /usr/local/bin/kubectl cluster-info --context kind-prod
            /usr/local/bin/kubectl config use-context kind-prod
-           /usr/local/bin/kubectl set-context --current --namespace=production
+           /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
+
+  push_to_registry_with_latest:
+    name: Push Docker image to Docker Hub with latest tag
+    runs-on: ubuntu-latest
+    needs: deploy_to_k8s_prod
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: crzysan/myapp:latest
 
   test_prod_deployment:
     name: Test prod cluster

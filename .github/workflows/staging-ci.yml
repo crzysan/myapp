@@ -26,6 +26,51 @@ jobs:
       run: |
         export PYTHONPATH="${PYTHONPATH}:$PWD"  # to use absolute from for import modules
         pylint --disable=F0001,C0114,C0115,C0116,E1101,R0903 feed*/*.py
+
+  test_image:
+    name: Test latest version of image
+    runs-on: ubuntu-latest
+    env:
+       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+       AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
+       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
+    # Service containers to run with `runner-job`
+    services:
+      mssql-server:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: Passw0rd
+          MSSQL_DB: mydb
+          MSSQL_USER: myuser
+          MSSQL_PASSWORD: Mypass123
+        volumes:
+          - ${{ github.workspace }}/.mssqlscripts/:/tmp/:rw
+        options: >-
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P $SA_PASSWORD -Q 'select 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 1433:1433
+      myapp:
+        image: crzysan/myapp:v83
+        env:
+          DATABASE_NAME: mydb
+          DATABASE_HOST: mssql-server
+          DATABASE_PASS: Mypass123
+          DATABASE_USER: myuser
+          DATABASE_PORT: 1433
+          DEBUG: "true"
+        ports:
+          - 8000:8000
+    steps:
+    - uses: actions/checkout@v2
+    - name: Smoke test
+      run: |
+        curl -I localhost:8000
+        
   # Label build
   build:
     runs-on: ubuntu-latest

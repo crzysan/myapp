@@ -13,6 +13,7 @@ echo "=========== DEV RESOURCES ============="
 kubectl config use-context kind-prod
 kubectl apply -f db-template.yml
 kubectl apply -f myapp-template.yml
+echo " "
 kubectl get svc,configmap,secret,deploy --namespace playground
 
 echo " "
@@ -20,6 +21,7 @@ echo "=========== PROD RESOURCES ============="
 kubectl config use-context kind-dev
 kubectl apply -f db-template.yml
 kubectl apply -f myapp-template.yml
+echo " "
 kubectl get svc,configmap,secret,deploy --namespace playground
 
 echo " "

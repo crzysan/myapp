@@ -1,4 +1,4 @@
-name: Django CI
+name: Django CICD
 
 on:
   pull_request:
@@ -87,7 +87,7 @@ jobs:
         echo test
         
   deploy_to_k8s_prod:
-    name: Deploy to dev cluster
+    name: Deploy to prod cluster
     runs-on: ubuntu-latest
     needs: test-image
     environment: prod
@@ -112,5 +112,5 @@ jobs:
     steps:
     - name: Smoke Test
       run: |
-        curl -I http://${{ secrets.SERVER_HOST }}:8000
-        curl -I http://${{ secrets.SERVER_HOST }}:8000/ht
+        curl -I http://${{ secrets.APP_ADDRESS }}:8000
+        curl -I http://${{ secrets.APP_ADDRESS }}:8000/ht

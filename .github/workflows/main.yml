@@ -52,7 +52,6 @@ jobs:
           - 8000:8000
         depends_on:
           - mssql-server
-
     steps:
       - uses: actions/checkout@v1
       - name: Test with black

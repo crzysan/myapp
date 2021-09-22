@@ -172,7 +172,7 @@ jobs:
            /usr/local/bin/kubectl set-context --current --namespace=playground
            /usr/local/bin/kubectl set image deployment/myapp-web myapp-web=crzysan/myapp:v${{ github.run_number }}
            /usr/local/bin/kubectl rollout status -w deployment/myapp-web
-           
+
   push_to_registry_with_latest:
     name: Push Docker image to Docker Hub with latest tag
     runs-on: ubuntu-latest

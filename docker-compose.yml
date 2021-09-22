@@ -1,8 +1,9 @@
 version: "3.9"
 
+
 services:
   db:
-    image: crzysan/mssql-docker:latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: Passw0rd
@@ -11,7 +12,16 @@ services:
       MSSQL_PASSWORD: Mypass123
     ports:
       - "1433:1433"
+    volumes:
+      - /tmp/mssqlscript/:/tmp/:rw
+    command: >
+      sh -c "/tmp/setup-db.sh"
     container_name: mssql-server
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P 'Passw0rd' -Q 'select 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   myapp:
     build: .

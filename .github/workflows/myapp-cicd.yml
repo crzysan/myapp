@@ -87,7 +87,7 @@ jobs:
         echo test
         
   deploy_to_k8s_prod:
-    name: Deploy to dev cluster
+    name: Deploy to prod cluster
     runs-on: ubuntu-latest
     needs: test-image
     environment: prod

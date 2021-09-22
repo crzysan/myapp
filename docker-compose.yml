@@ -6,7 +6,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: Y
-      SA_PASSWORD: Passw0rd
+      MSSQL_SA_PASSWORD: yourStrong(!)Password
       MSSQL_DB: mydb
       MSSQL_USER: myuser
       MSSQL_PASSWORD: Mypass123
@@ -18,7 +18,7 @@ services:
       sh -c "/tmp/setup-db.sh"
     container_name: mssql-server
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P 'Passw0rd' -Q 'select 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P '$MSSQL_SA_PASSWORD' -Q 'select 1'"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -9,47 +9,6 @@ on:
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Label of the container job
-  test-image:
-    # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
-    env:
-       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-       AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
-       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
-    # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
-    services:
-      mymssqlserver:
-        image: docker.io/crzysan/mssql-docker:latest
-        ports:
-        - 1443:1433/tcp
-        env:
-          ACCEPT_EULA: "Y"
-          SA_PASSWORD: "Passw0rd"
-          MSSQL_DB: "mydb"
-          MSSQL_USER: "myuser"
-          MSSQL_PASSWORD: "Mypass123"
-      myapp:
-        image: docker.io/crzysan/myapp:v76
-        ports:
-        - 8000:8000/tcp
-        env:
-          DATABASE_NAME: "mydb"
-          DATABASE_HOST: mymssqlserver
-          DATABASE_PASS: "Mypass123"
-          DATABASE_USER: "myuser"
-          DATABASE_PORT: "1433"
-          DEBUG: "true"
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run Tests
-      run: |
-        wait 60
-        docker logs myapp
-        curl -I localhost:3000
-        
   syntaxt-check:
     runs-on: ubuntu-latest
     steps:

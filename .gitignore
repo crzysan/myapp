@@ -10,7 +10,6 @@ media
 feedapp/migrations
 .ci/
 feed/settings/
-k8s/configmap.yaml
 
 # Backup files # 
 *.bak 

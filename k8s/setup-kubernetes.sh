@@ -5,7 +5,7 @@
 # CREATE KIND CLUSTER
 echo "========== DEPLOY CLUSTER ============="
 kind create cluster --name prod --image kindest/node:v1.22.1 --config kind-cluster.yml
-kind create cluster --name prod --image kindest/node:v1.22.1 --config kind-cluster-dev.yml
+kind create cluster --name dev --image kindest/node:v1.22.1 --config kind-cluster-dev.yml
 
 # DEPLOY RESOURCES DB AND APPLICATION
 echo " "

@@ -13,7 +13,7 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - /tmp/mssqlscript/:/tmp/:rw
+      - .mssqlscripts/:/tmp/:rw
     command: >
       sh -c "/tmp/setup-db.sh"
     container_name: mssql-server

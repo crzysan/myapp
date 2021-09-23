@@ -20,7 +20,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 180s
+      start_period: 240s
 
 
   myapp:
@@ -46,5 +46,5 @@ services:
       interval: 20s
       timeout: 10s
       retries: 5
-      start_period: 180s
+      start_period: 240s
 

@@ -54,36 +54,10 @@ jobs:
           --health-retries 5
         ports:
           - 1433:1433
-      myapp:
-        image: crzysan/myapp:v83
-        env:
-          DATABASE_NAME: mydb
-          DATABASE_HOST: mssql-server
-          DATABASE_PASS: Mypass123
-          DATABASE_USER: myuser
-          DATABASE_PORT: 1433
-          DEBUG: "true"
-        ports:
-          - 8000:8000
     steps:
     - uses: actions/checkout@v2
-    - name: Smoke test
-      run: |
-        curl -I localhost:8000
-        
-  # Label build
-  build:
-    runs-on: ubuntu-latest
-    needs: syntaxt-check 
-    env:
-       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-       AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
-       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
-    steps:
-    - uses: actions/checkout@v1
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose.yml up -d
+      run: docker-compose -f docker-compose.yml up -d myapp
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec
@@ -92,7 +66,6 @@ jobs:
       run: docker ps
     - name: Check logs
       run: |
-        docker logs mssql-server
         docker logs myapp-web
     - name: Run test
       run: curl -I localhost:8000

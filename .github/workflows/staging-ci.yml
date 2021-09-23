@@ -37,7 +37,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose-full.yml up -d --build
+      run: docker-compose -f docker-compose-full.yml up -d
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec
@@ -69,20 +69,18 @@ jobs:
           MSSQL_DB: mydb
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass123
-        volumes:
-          - ${{ github.workspace }}/.mssqlscripts:/var/opt/mssql/share:rw
         options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -t 1 -U sa -P '$SA_PASSWORD' -Q 'select 1' || exit 1"
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -t 1 -U sa -P 'Passw0rd' -Q 'select 1' || exit 1"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --health-start-period 500s
+          --health-start-period 120s
         ports:
           - 1433:1433
     steps:
     - uses: actions/checkout@v2
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose.yml up -d --build
+      run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers
       run: docker ps
     - name: wait for containers 180 sec

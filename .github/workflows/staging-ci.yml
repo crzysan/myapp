@@ -87,15 +87,10 @@ jobs:
         docker exec mssql-server ls -l /var/opt/mssql/
         docker exec mssql-server /bin/bash /var/opt/mssql/mssql_healthcheck
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose.yml up -d
-    - name: Check running containers
-      run: docker ps
-    - name: wait for containers 200 sec
-      run: sleep 400
-    - name: Check running containers again
-      run: docker ps
-    - name: Check logs
       run: |
-        docker logs myapp-web
+         /bin/bash setup-env.sh
+    - name: migration app
+      run: |
+         /bin/bash start-server.sh
     - name: Run test
       run: curl -I localhost:8000

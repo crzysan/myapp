@@ -26,7 +26,31 @@ jobs:
       run: |
         export PYTHONPATH="${PYTHONPATH}:$PWD"  # to use absolute from for import modules
         pylint --disable=F0001,C0114,C0115,C0116,E1101,R0903 feed*/*.py
-
+  # Label build
+  build:
+    runs-on: ubuntu-latest
+    env:
+       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+       AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+       AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
+       AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the docker-compose stack
+      run: docker-compose -f docker-compose-full.yml up -d
+    - name: Check running containers
+      run: docker ps
+    - name: wait for containers 120 sec
+      run: sleep 60
+    - name: Check running containers again
+      run: docker ps
+    - name: Check logs
+      run: |
+        docker logs mssql-server
+        docker logs myapp-web
+    - name: Run test
+      run: curl -I localhost:8000
+      
   test_image:
     name: Test latest version of image
     runs-on: ubuntu-latest
@@ -46,12 +70,13 @@ jobs:
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass123
         volumes:
-          - ${{ github.workspace }}/.mssqlscripts/:/var/opt/mssql/bin:rw
+          - ${{ github.workspace }}/.mssqlscripts:/var/opt/mssql/share:rw
         options: >-
-          --health-cmd "/bin/bash /var/opt/mssql/bin/mssql_healthcheck"
-          --health-interval 15s
-          --health-timeout 10s
-          --health-retries 10
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -t 1 -U sa -P $SA_PASSWORD -Q 'select 1' || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --start_period 180s
         ports:
           - 1433:1433
     steps:

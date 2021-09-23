@@ -41,7 +41,7 @@ jobs:
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec
-      run: sleep 60
+      run: sleep 240
     - name: Check running containers again
       run: docker ps
     - name: Check logs
@@ -76,7 +76,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --health-start-period 180s
+          --health-start-period 240s
         ports:
           - 1433:1433
     steps:

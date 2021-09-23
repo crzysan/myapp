@@ -91,7 +91,7 @@ jobs:
     - name: Check running containers
       run: docker ps
     - name: wait for containers 180 sec
-      run: sleep 240
+      run: sleep 120
     - name: Check running containers again
       run: docker ps
     - name: Check logs

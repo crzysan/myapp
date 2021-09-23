@@ -2,27 +2,6 @@ version: "3.9"
 
 
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: Passw0rd
-      MSSQL_DB: mydb
-      MSSQL_USER: myuser
-      MSSQL_PASSWORD: Mypass123
-    ports:
-      - "1433:1433"
-    volumes:
-      - ./.mssqlscripts/:/tmp/:rw
-    command: >
-      sh -c "/bin/bash /tmp/setup-db.sh"
-    container_name: mssql-server
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P 'Passw0rd' -Q 'select 1'"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   myapp:
     build: .
     environment:

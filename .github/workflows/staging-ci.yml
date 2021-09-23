@@ -76,13 +76,13 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --start_period 180s
+          --health-start-period 180s
         ports:
           - 1433:1433
     steps:
     - uses: actions/checkout@v2
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose.yml up -d myapp
+      run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec

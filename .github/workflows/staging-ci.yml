@@ -83,7 +83,8 @@ jobs:
     - name: check mssql 
       run: |
         docker ps
-        docker cp ${{ github.workspace }}/.mssqlscripts/ mssql-server:/var/opt/mssql/.
+        docker cp ${{ github.workspace }}/.mssqlscripts/. mssql-server:/var/opt/mssql/.
+        docker exec mssql-server ls -l /var/opt/mssql/
         docker exec mssql-server /bin/bash /var/opt/mssql/mssql_healthcheck
     - name: Build the docker-compose stack
       run: docker-compose -f docker-compose.yml up -d

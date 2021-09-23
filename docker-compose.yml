@@ -15,7 +15,7 @@ services:
     volumes:
       - ./.mssqlscripts/:/tmp/:rw
     command: >
-      sh -c "/tmp/setup-db.sh"
+      sh -c "chmod +x /tmp/setup* && /tmp/setup-db.sh"
     container_name: mssql-server
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -U sa -P 'Passw0rd' -Q 'select 1'"]

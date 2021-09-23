@@ -35,7 +35,7 @@ jobs:
        AUTH0_KEY: ${{ secrets.AUTH0_KEY }}
        AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Build the docker-compose stack
       run: docker-compose -f docker-compose-full.yml up -d
     - name: Check running containers
@@ -79,6 +79,11 @@ jobs:
           - 1433:1433
     steps:
     - uses: actions/checkout@v2
+    - name: check mssql 
+      run: |
+        docker ps
+        docker cp ${{ github.workspace }}/.mssqlscripts/ mssql-server:/var/opt/mssql/.
+        docker exec mssql-server /bin/bash /var/opt/mssql/mssql_healthcheck
     - name: Build the docker-compose stack
       run: docker-compose -f docker-compose.yml up -d
     - name: Check running containers

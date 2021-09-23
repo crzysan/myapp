@@ -46,9 +46,9 @@ jobs:
           MSSQL_USER: myuser
           MSSQL_PASSWORD: Mypass123
         volumes:
-          - ${{ github.workspace }}/.mssqlscripts/:/tmp/:rw
+          - ${{ github.workspace }}/.mssqlscripts/:/var/opt/mssql/bin:rw
         options: >-
-          --health-cmd "/opt/mssql-tools/bin/sqlcmd -U sa -P $SA_PASSWORD -Q 'select 1'"
+          --health-cmd "/bin/bash /var/opt/mssql/bin/mssql_healthcheck"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5

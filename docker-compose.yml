@@ -17,6 +17,4 @@ services:
       AUTH0_SECRET: "${AUTH0_SECRET}"
     ports:
       - "8000:8000"
-    depends_on:
-      - db
     container_name: myapp-web

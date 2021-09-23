@@ -3,12 +3,15 @@
 export STATUS=1
 export DBEXIST=1
 
+# Set script directory
+BASEDIR=$(dirname "$0")
+
 echo "Check mssql is started..."
 /opt/mssql-tools/bin/sqlcmd -t 1 -U sa -P $SA_PASSWORD -Q "select 1" >> /dev/null
 STATUS=$?
 
 if [ $STATUS -ne 0 ]; then
-    echo "ERROR: Can't login with SA user"  | tee -a /var/opt/mssql/log/config.log
+    echo "ERROR: Can't login with SA user"  >> /var/opt/mssql/log/errorlog
     exit 1
 fi
 
@@ -16,13 +19,12 @@ fi
 echo "Check if database is created..."
 /opt/mssql-tools/bin/sqlcmd -t 1 -U sa -P $SA_PASSWORD -Q "select * from master.sys.sysdatabases where name='$MSSQL_DB'" | grep "1 row" >> /dev/null
 DBEXIST=$?
-
-if [ $DBEXIST -ne 1 ]; then
-    echo "INFO: Creating $MSSQL_DB database" | tee -a /var/opt/mssql/log/config.log
-    /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i ./setup.sql
-    echo "INFO: Database $MSSQL_DB created" | tee -a /var/opt/mssql/log/config.log
+if [ $DBEXIST -ne 0 ]; then
+    echo "INFO: Creating $MSSQL_DB database" >> /var/opt/mssql/log/errorlog
+    /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i $BASEDIR/setup.sql
+    echo "INFO: Database $MSSQL_DB created" >> /var/opt/mssql/log/errorlog
 fi
 
-echo "INFO: MSSQL Database is HEALTHY!" | tee -a /var/opt/mssql/log/config.log
+echo "INFO: MSSQL Database is HEALTHY!" >> /var/opt/mssql/log/errorlog
 
 exit 0

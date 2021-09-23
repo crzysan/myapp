@@ -50,8 +50,8 @@ jobs:
         options: >-
           --health-cmd "cat /var/opt/mssql/share/mssql_healthcheck && /bin/bash /var/opt/mssql/share/mssql_healthcheck"
           --health-interval 10s
-          --health-timeout 60s
-          --health-retries 20
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 1433:1433
     steps:

@@ -18,3 +18,9 @@ services:
     ports:
       - "8000:8000"
     container_name: myapp-web
+    healthcheck:
+      test: ["CMD-SHELL", "curl -I http://localhost:8000 || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 180s

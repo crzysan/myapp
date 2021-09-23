@@ -37,11 +37,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose-full.yml up -d
+      run: docker-compose -f docker-compose-full.yml up -d --build
     - name: Check running containers
       run: docker ps
     - name: wait for containers 120 sec
-      run: sleep 300
+      run: sleep 120
     - name: Check running containers again
       run: docker ps
     - name: Check logs
@@ -82,7 +82,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the docker-compose stack
-      run: docker-compose -f docker-compose.yml up -d
+      run: docker-compose -f docker-compose.yml up -d --build
     - name: Check running containers
       run: docker ps
     - name: wait for containers 180 sec

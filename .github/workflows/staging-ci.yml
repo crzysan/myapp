@@ -76,7 +76,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          --health-start-period 300s
+          --health-start-period 500s
         ports:
           - 1433:1433
     steps:

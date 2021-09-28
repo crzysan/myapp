@@ -1,4 +1,5 @@
 FROM python:3.8-slim-buster
+LABEL org.opencontainers.image.authors="christian_candelaria@hotmail.com"
 
 ENV ROOTAPP=/opt
 ENV HOMEDIR=/opt/app
